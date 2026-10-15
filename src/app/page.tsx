@@ -1,5 +1,6 @@
 "use client";
 
+import { AccountList } from "@/components/accounts/AccountList";
 import { AuthGuard } from "@/components/auth/AuthGaurd";
 import { Navbar } from "@/components/common/Navbar";
 import { QuickActions } from "@/components/dashboard/QuickActions";
@@ -13,10 +14,14 @@ import { useAuth } from "@/context/AuthContext";
 import { formatCurrency } from "@/lib/formatter";
 import { INITIAL_ACCOUNTS, INITIAL_TRANSACTIONS } from "@/lib/mockData";
 import { TrendingDown, TrendingUp, Wallet } from "lucide-react";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 
 export default function DashboardPage() {
   const { user, logout } = useAuth();
+
+  const [selectedAccountId, setSelectedAccountId] = useState<string | null>(
+    null,
+  );
 
   // Total Balance & Linked Accounts
   const totalBalance = useMemo(() => {
@@ -24,6 +29,10 @@ export default function DashboardPage() {
   }, []);
 
   const linkedAccountsCount = INITIAL_ACCOUNTS.length;
+
+  const selectedAccount = useMemo(() => {
+    return INITIAL_ACCOUNTS.find((acc) => acc.id === selectedAccountId);
+  }, [selectedAccountId]);
 
   //  Monthly Income & Expenses
   const { monthlyIncome, monthlyExpenses } = useMemo(() => {
@@ -41,12 +50,24 @@ export default function DashboardPage() {
     }
 
     return { monthlyIncome: income, monthlyExpenses: expenses };
-  }, []);
+  }, [selectedAccountId]);
+
+  const displayedTransactions = useMemo(() => {
+    const list = selectedAccountId
+      ? INITIAL_TRANSACTIONS.filter(
+          (txn) => txn.accountId === selectedAccountId,
+        )
+      : INITIAL_TRANSACTIONS;
+
+    return [...list].sort(
+      (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
+    );
+  }, [selectedAccountId]);
 
   const categorySpending: CategorySpendingItem[] = useMemo(() => {
     const expenseMap: Record<string, number> = {};
 
-    for (const txn of INITIAL_TRANSACTIONS) {
+    for (const txn of displayedTransactions) {
       if (txn.type === "debit" && txn.status === "successful") {
         expenseMap[txn.category] = (expenseMap[txn.category] || 0) + txn.amount;
       }
@@ -62,17 +83,7 @@ export default function DashboardPage() {
             : 0,
       }))
       .sort((a, b) => b.amount - a.amount);
-  }, [monthlyExpenses]);
-
-  console.log(totalBalance, "DEBUG 1");
-  console.log(monthlyIncome, monthlyExpenses, "DEBUG 2");
-  console.log(categorySpending, "DEBUG 4");
-
-  const sortedTransactions = useMemo(() => {
-    return [...INITIAL_TRANSACTIONS].sort(
-      (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
-    );
-  }, []);
+  }, [displayedTransactions, monthlyExpenses]);
 
   return (
     <AuthGuard>
@@ -112,6 +123,12 @@ export default function DashboardPage() {
             />
           </div>
 
+          <AccountList
+            accounts={INITIAL_ACCOUNTS}
+            selectedAccountId={selectedAccountId}
+            onSelectAccount={setSelectedAccountId}
+          />
+
           <QuickActions />
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -124,8 +141,9 @@ export default function DashboardPage() {
 
             <div className="lg:col-span-2">
               <RecentTransactions
-                transactions={sortedTransactions}
+                transactions={displayedTransactions}
                 maxDisplay={5}
+                selectedAccountName={selectedAccount?.name}
               />
             </div>
           </div>

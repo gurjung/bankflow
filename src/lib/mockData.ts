@@ -16,14 +16,14 @@ export const INITIAL_ACCOUNTS: Account[] = [
   },
   {
     id: "acc_savings",
-    name: "High Yield Savings",
+    name: "Savings Account",
     accountNumber: "672109841120",
     accountType: "Savings",
     balance: 24350.0,
   },
   {
     id: "acc_current",
-    name: "Daily Checking / Current",
+    name: "Current Account",
     accountNumber: "381920495819",
     accountType: "Current",
     balance: 3120.4,

@@ -2,20 +2,22 @@ import React from "react";
 import { Transaction } from "@/types";
 import { formatCurrency, formatDate } from "@/lib/formatter";
 import { ArrowUpRight, ArrowDownRight } from "lucide-react";
+import { getTransactionTypeMeta } from "@/lib/uiHelpers";
 
 interface RecentTransactionsProps {
   transactions: Transaction[];
   maxDisplay?: number;
+  selectedAccountName?: string;
 }
 
 export function RecentTransactions(props: RecentTransactionsProps) {
-  const { transactions, maxDisplay = 5 } = props;
+  const { transactions, maxDisplay = 5, selectedAccountName } = props;
   const displayed = transactions.slice(0, maxDisplay);
 
   return (
     <div className="bg-white border border-slate-200/80 rounded-2xl p-5 shadow-sm flex flex-col">
       {/* Header */}
-      <div className="flex items-center justify-between mb-4">
+      <header className="flex items-center justify-between mb-4">
         <div>
           <h2 className="text-base font-bold text-slate-900">
             Recent Transactions
@@ -27,9 +29,8 @@ export function RecentTransactions(props: RecentTransactionsProps) {
         <span className="text-xs text-slate-500 font-medium">
           Showing {displayed.length} latest
         </span>
-      </div>
-
-      {/* Table with vertical and horizontal scrolling */}
+      </header>
+      {/* TABLE  */}
       <div className="overflow-x-auto overflow-y-auto max-h-[380px]">
         <table className="w-full text-left text-xs">
           <thead className="sticky top-0 bg-white z-1 shadow-[0_1px_0_0_rgba(241,245,249,1)]">
@@ -51,27 +52,20 @@ export function RecentTransactions(props: RecentTransactionsProps) {
               </tr>
             ) : (
               displayed.map((txn) => {
-                const isCredit = txn.type === "credit";
+                const { icon, badgeBg, amountColor, prefix } =
+                  getTransactionTypeMeta(txn.type);
                 return (
                   <tr
                     key={txn.id}
                     className="hover:bg-slate-50/70 transition-colors"
                   >
-                    {/* Description & Type Icon */}
                     <td className="py-3.5 pr-2">
                       <div className="flex items-center gap-2.5">
                         <div
-                          className={`w-7 h-7 rounded-lg flex items-center justify-center shrink-0 ${
-                            isCredit
-                              ? "bg-emerald-50 text-emerald-600"
-                              : "bg-slate-100 text-slate-600"
-                          }`}
+                          className={`w-7 h-7 rounded-lg flex items-center justify-center shrink-0 ${badgeBg}`}
+                          aria-hidden="true"
                         >
-                          {isCredit ? (
-                            <ArrowDownRight className="w-3.5 h-3.5" />
-                          ) : (
-                            <ArrowUpRight className="w-3.5 h-3.5" />
-                          )}
+                          {icon}
                         </div>
                         <span className="font-semibold text-slate-800 line-clamp-1">
                           {txn.description}
@@ -79,26 +73,19 @@ export function RecentTransactions(props: RecentTransactionsProps) {
                       </div>
                     </td>
 
-                    {/* Category */}
                     <td className="py-3.5 px-2">
                       <span className="inline-block px-2 py-0.5 rounded-md bg-slate-100 text-slate-600 font-medium text-[11px]">
                         {txn.category}
                       </span>
                     </td>
 
-                    {/* Date */}
                     <td className="py-3.5 px-2 text-slate-500 whitespace-nowrap">
-                      {formatDate(txn.date)}
+                      <time dateTime={txn.date}>{formatDate(txn.date)}</time>
                     </td>
 
-                    {/* Amount */}
                     <td className="py-3.5 pl-2 text-right whitespace-nowrap">
-                      <span
-                        className={`font-bold ${
-                          isCredit ? "text-emerald-600" : "text-slate-900"
-                        }`}
-                      >
-                        {isCredit ? "+" : "-"}
+                      <span className={`font-bold ${amountColor}`}>
+                        {prefix}
                         {formatCurrency(txn.amount)}
                       </span>
                     </td>

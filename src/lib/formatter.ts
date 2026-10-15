@@ -25,3 +25,10 @@ export function formatDate(isoString: string): string {
     return isoString;
   }
 }
+
+export function maskAccountNumber(accountNumber: string): string {
+  if (!accountNumber) return "•••• 0000";
+  const clean = accountNumber.replace(/\s+/g, "");
+  const last4 = clean.slice(-4);
+  return `•••• ${last4}`;
+}

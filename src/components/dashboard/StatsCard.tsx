@@ -1,3 +1,4 @@
+import { getStatCardStyle } from "@/lib/uiHelpers";
 import React from "react";
 
 export type StatsCardVariant = "default" | "income" | "expense";
@@ -13,35 +14,28 @@ interface StatsCardProps {
 
 export function StatsCard(props: StatsCardProps) {
   const { title, amount, icon, subtitle, badge, variant = "default" } = props;
-  // Styles based on variant
-  const iconBgClasses = {
-    default: "bg-indigo-50 text-indigo-600",
-    income: "bg-emerald-50 text-emerald-600",
-    expense: "bg-rose-50 text-rose-600",
-  }[variant];
 
-  const amountColorClasses = {
-    default: "text-slate-900",
-    income: "text-emerald-600",
-    expense: "text-slate-900",
-  }[variant];
+  const { iconBg, amountColor } = getStatCardStyle(variant);
 
   return (
-    <div className="bg-white border border-slate-200/80 rounded-2xl p-5 shadow-sm flex flex-col justify-between">
-      <div className="flex items-center justify-between mb-3">
-        <span className="text-xs font-semibold uppercase tracking-wider text-slate-500">
+    <article
+      aria-label={`${title}: ${amount}`}
+      className="bg-white border border-slate-200/80 rounded-2xl p-5 shadow-sm flex flex-col justify-between"
+    >
+      <header className="flex items-center justify-between mb-3">
+        <h3 className="text-xs font-semibold uppercase tracking-wider text-slate-500">
           {title}
-        </span>
+        </h3>
         <div
-          className={`w-8 h-8 rounded-lg flex items-center justify-center ${iconBgClasses}`}
+          className={`w-8 h-8 rounded-lg flex items-center justify-center ${iconBg}`}
         >
           {icon}
         </div>
-      </div>
+      </header>
 
       <div>
         <p
-          className={`text-2xl sm:text-3xl font-extrabold tracking-tight ${amountColorClasses}`}
+          className={`text-2xl sm:text-3xl font-extrabold tracking-tight ${amountColor}`}
         >
           {amount}
         </p>
@@ -54,6 +48,6 @@ export function StatsCard(props: StatsCardProps) {
 
         {subtitle && <p className="text-xs text-slate-500 mt-2">{subtitle}</p>}
       </div>
-    </div>
+    </article>
   );
 }
