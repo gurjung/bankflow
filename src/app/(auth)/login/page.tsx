@@ -1,8 +1,10 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ArrowRight, Eye, EyeOff, Lock, Mail, ShieldCheck } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { validateLoginForm } from "@/lib/validations";
+import { useAuth } from "@/context/AuthContext";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
@@ -10,12 +12,21 @@ const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const router = useRouter();
+  const { login, isAuthenticated, isLoading: authLoading } = useAuth();
 
   //error state
   const [errors, setErrors] = useState<{
     email?: string;
     password?: string;
   }>({});
+
+  const [authError, setAuthError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!authLoading && isAuthenticated) {
+      router.push("/");
+    }
+  }, [isAuthenticated, authLoading, router]);
 
   const onChangeField = (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -35,38 +46,46 @@ const LoginPage = () => {
     }
   };
 
-  const validateForm = () => {
-    const newErrors: { email?: string; password?: string } = {};
-
-    if (!email.trim()) {
-      newErrors.email = "Email address is required.";
-    } else {
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!emailRegex.test(email.trim())) {
-        newErrors.email = "Please enter a valid email address.";
-      }
-    }
-
-    if (!password) {
-      newErrors.password = "Password is required.";
-    } else if (password.length < 6) {
-      newErrors.password = "Password must be at least 6 characters long.";
-    }
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setErrors({});
+    setAuthError(null);
 
-    if (!validateForm()) {
+    const validation = validateLoginForm(email, password);
+    if (!validation.isValid) {
+      setErrors(validation.errors);
       return;
     }
 
-    router.push("/");
+    setIsSubmitting(true);
+    try {
+      await login(email, password);
+      router.push("/");
+    } catch (err) {
+      setAuthError(
+        err instanceof Error
+          ? err.message
+          : "Authentication failed. Please check your credentials.",
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
   };
+
+  if (authLoading) {
+    return (
+      <div
+        className="min-h-screen flex items-center justify-center bg-slate-50"
+        role="status"
+      >
+        <span className="sr-only">Loading BankFlow authentication...</span>
+        <div
+          className="w-8 h-8 border-4 border-indigo-600 border-t-transparent rounded-full animate-spin"
+          aria-hidden="true"
+        />
+      </div>
+    );
+  }
 
   return (
     <main className="min-h-screen flex flex-col justify-center py-12 sm:px-6 lg:px-8 bg-gradient-to-b from-slate-100 to-slate-200">
@@ -99,6 +118,16 @@ const LoginPage = () => {
           <h2 id="login-form-heading" className="sr-only">
             Account Login Form
           </h2>
+
+          {authError && (
+            <div
+              role="alert"
+              aria-live="assertive"
+              className="mb-5 p-3 rounded-lg bg-rose-50 border border-rose-200 text-rose-700 text-sm flex items-center gap-2"
+            >
+              <span className="font-medium">{authError}</span>
+            </div>
+          )}
 
           <form onSubmit={handleSubmit} className="space-y-5" noValidate>
             {/* Email Field */}
