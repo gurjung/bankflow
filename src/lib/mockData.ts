@@ -1,7 +1,111 @@
-import { User } from "@/types";
+import { Account, Transaction, User } from "@/types";
 
 export const INITIAL_USER: User = {
   id: "usr_101",
   name: "Alex Morgan",
   email: "alex.morgan@example.com",
 };
+
+export const INITIAL_ACCOUNTS: Account[] = [
+  {
+    id: "acc_salary",
+    name: "Salary Account",
+    accountNumber: "409281729014",
+    accountType: "Salary",
+    balance: 8450.75,
+  },
+  {
+    id: "acc_savings",
+    name: "High Yield Savings",
+    accountNumber: "672109841120",
+    accountType: "Savings",
+    balance: 24350.0,
+  },
+  {
+    id: "acc_current",
+    name: "Daily Checking / Current",
+    accountNumber: "381920495819",
+    accountType: "Current",
+    balance: 3120.4,
+  },
+];
+
+export const INITIAL_TRANSACTIONS: Transaction[] = [
+  {
+    id: "txn_001",
+    accountId: "acc_salary",
+    description: "TechCorp Monthly Payroll",
+    amount: 6200.0,
+    type: "credit",
+    status: "successful",
+    date: "2026-10-01T09:00:00Z",
+    referenceNumber: "TXN-902184",
+    category: "Income",
+  },
+  {
+    id: "txn_002",
+    accountId: "acc_current",
+    description: "Whole Foods Market",
+    amount: 142.35,
+    type: "debit",
+    status: "successful",
+    date: "2026-10-02T14:22:10Z",
+    referenceNumber: "TXN-831920",
+    category: "Groceries",
+  },
+  {
+    id: "txn_003",
+    accountId: "acc_current",
+    description: "ConEdison Electric Utility",
+    amount: 88.5,
+    type: "debit",
+    status: "successful",
+    date: "2026-10-04T10:15:00Z",
+    referenceNumber: "TXN-741029",
+    category: "Utilities",
+  },
+  {
+    id: "txn_004",
+    accountId: "acc_current",
+    description: "Blue Bottle Coffee",
+    amount: 16.2,
+    type: "debit",
+    status: "successful",
+    date: "2026-10-06T08:30:00Z",
+    referenceNumber: "TXN-619284",
+    category: "Dining",
+  },
+  {
+    id: "txn_005",
+    accountId: "acc_savings",
+    description: "Quarterly High Yield Interest",
+    amount: 175.4,
+    type: "credit",
+    status: "successful",
+    date: "2026-10-08T18:00:00Z",
+    referenceNumber: "TXN-501928",
+    category: "Interest",
+  },
+  {
+    id: "txn_006",
+    accountId: "acc_current",
+    description: "Apple Store NYC - Hardware",
+    amount: 329.0,
+    type: "debit",
+    status: "successful",
+    date: "2026-10-10T15:45:00Z",
+    referenceNumber: "TXN-418290",
+    category: "Shopping",
+  },
+  {
+    id: "txn_007",
+    accountId: "acc_current",
+    description: "Netflix & Spotify Subscription",
+    amount: 28.98,
+    type: "debit",
+    status: "successful",
+    date: "2026-10-12T11:00:00Z",
+    referenceNumber: "TXN-392019",
+    category: "Entertainment",
+  },
+];
