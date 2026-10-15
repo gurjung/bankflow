@@ -12,3 +12,16 @@ export function formatCurrency(
     maximumFractionDigits: 2,
   }).format(amount);
 }
+
+export function formatDate(isoString: string): string {
+  try {
+    const date = new Date(isoString);
+    return new Intl.DateTimeFormat("en-IN", {
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+    }).format(date);
+  } catch {
+    return isoString;
+  }
+}
