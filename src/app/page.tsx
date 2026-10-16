@@ -1,7 +1,7 @@
 "use client";
 
 import { AccountList } from "@/components/accounts/AccountList";
-import { AuthGuard } from "@/components/auth/AuthGaurd";
+import { AuthGuard } from "@/components/auth/AuthGuard";
 import { Navbar } from "@/components/common/Navbar";
 import { DashboardMetrics } from "@/components/dashboard/DashboardMetrics";
 import { QuickActions } from "@/components/dashboard/QuickActions";
