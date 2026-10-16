@@ -24,7 +24,7 @@ export function TransactionTable(props: TransactionTableProps) {
     onResetDropdownFilters,
   } = props;
   return (
-    <div className="overflow-x-auto border border-slate-100 rounded-xl">
+    <div className="overflow-x-auto border border-slate-100 rounded-xl min-h-[330px]">
       <table className="w-full text-left text-xs">
         <thead>
           <tr className="bg-slate-50 border-b border-slate-100 text-slate-500 font-semibold">

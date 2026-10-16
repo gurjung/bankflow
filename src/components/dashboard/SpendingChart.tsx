@@ -16,7 +16,7 @@ export function SpendingChart(props: SpendingChartProps) {
   const { categories, totalExpenses } = props;
 
   return (
-    <section className="bg-white border border-slate-200/80 rounded-2xl p-5 shadow-sm flex flex-col justify-between">
+    <section className="bg-white border border-slate-200/80 rounded-2xl p-5 shadow-sm flex flex-col justify-between h-full">
       <header className="mb-4">
         <h2 className="text-base font-bold text-slate-900">
           Spending by Category

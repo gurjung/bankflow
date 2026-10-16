@@ -15,7 +15,7 @@ export function RecentTransactions(props: RecentTransactionsProps) {
   const displayed = transactions.slice(0, maxDisplay);
 
   return (
-    <div className="bg-white border border-slate-200/80 rounded-2xl p-5 shadow-sm flex flex-col">
+    <section className="bg-white border border-slate-200/80 rounded-2xl p-5 shadow-sm flex flex-col h-full">
       {/* Header */}
       <header className="flex items-center justify-between mb-4">
         <div>
@@ -96,6 +96,6 @@ export function RecentTransactions(props: RecentTransactionsProps) {
           </tbody>
         </table>
       </div>
-    </div>
+    </section>
   );
 }

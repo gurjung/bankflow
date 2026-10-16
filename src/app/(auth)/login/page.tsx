@@ -93,9 +93,6 @@ const LoginPage = () => {
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
         {/* Brand header */}
         <div className="flex items-center justify-center gap-2 mb-2">
-          <div className="w-10 h-10 rounded-xl bg-indigo-600 flex items-center justify-center text-white shadow-md shadow-indigo-200">
-            <ShieldCheck className="w-6 h-6" />
-          </div>
           <span className="text-2xl font-bold tracking-tight text-slate-900">
             Bank<span className="text-indigo-600">Flow</span>
           </span>
@@ -103,9 +100,6 @@ const LoginPage = () => {
         <h1 className="text-center text-xl font-semibold text-slate-700">
           Sign in to your digital banking
         </h1>
-        <p className="mt-1 text-center text-xs text-slate-500">
-          Secure, mock customer portal
-        </p>
       </div>
 
       {/* form section */}

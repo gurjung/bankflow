@@ -15,9 +15,6 @@ export function Navbar(props: NavbarProps) {
     <header className="bg-white border-b border-slate-200 sticky top-0 z-10 px-4 sm:px-8 py-3.5 flex items-center justify-between">
       {/* Brand */}
       <div className="flex items-center gap-2.5">
-        <div className="w-9 h-9 rounded-xl bg-indigo-600 flex items-center justify-center text-white shadow-sm">
-          <ShieldCheck className="w-5 h-5" />
-        </div>
         <span className="font-bold text-lg text-slate-900 tracking-tight">
           Bank<span className="text-indigo-600">Flow</span>
         </span>

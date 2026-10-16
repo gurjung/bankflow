@@ -158,11 +158,7 @@ export default function DashboardPage() {
             </div>
             <QuickActions
               onTransferClick={() => setIsTransferOpen(true)}
-              onHistoryClick={() => {
-                document
-                  .getElementById("transaction-history")
-                  ?.scrollIntoView({ behavior: "smooth" });
-              }}
+              onHistoryClick={handleScrollToHistory}
             />
           </div>
 
@@ -181,14 +177,14 @@ export default function DashboardPage() {
           />
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <div className="lg:col-span-1">
+            <div className="lg:col-span-1 flex flex-col">
               <SpendingChart
                 categories={categorySpending}
                 totalExpenses={monthlyExpenses}
               />
             </div>
 
-            <div className="lg:col-span-2">
+            <div className="lg:col-span-2 flex flex-col">
               <RecentTransactions
                 transactions={displayedTransactions}
                 maxDisplay={5}
