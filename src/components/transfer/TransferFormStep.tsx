@@ -2,6 +2,7 @@ import React from "react";
 import { Account } from "@/types";
 import { formatCurrency, maskAccountNumber } from "@/lib/formatter";
 import { ArrowRight } from "lucide-react";
+import { Select } from "../common/Select";
 
 interface TransferFormStepProps {
   accounts: Account[];
@@ -42,19 +43,20 @@ export function TransferFormStep(props: TransferFormStepProps) {
         <label className="block text-xs font-semibold text-slate-700 mb-1">
           From Account
         </label>
-        <select
+        <Select
           value={sourceId}
           onChange={(e) => onSourceChange(e.target.value)}
-          className="w-full text-xs p-2.5 rounded-lg border border-slate-200 bg-white text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500"
         >
           {accounts.map((acc) => (
             <option key={acc.id} value={acc.id}>
               {acc.name} ({maskAccountNumber(acc.accountNumber)})
             </option>
           ))}
-        </select>
+        </Select>
         {errors.source && (
-          <p className="text-rose-600 text-[11px] mt-1">{errors.source}</p>
+          <p role="alert" className="text-rose-600 text-[11px] mt-1">
+            {errors.source}
+          </p>
         )}
       </div>
 
@@ -62,19 +64,17 @@ export function TransferFormStep(props: TransferFormStepProps) {
         <label className="block text-xs font-semibold text-slate-700 mb-1">
           To Account
         </label>
-        <select
-          value={destId}
-          onChange={(e) => onDestChange(e.target.value)}
-          className="w-full text-xs p-2.5 rounded-lg border border-slate-200 bg-white text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-        >
+        <Select value={destId} onChange={(e) => onDestChange(e.target.value)}>
           {accounts.map((acc) => (
             <option key={acc.id} value={acc.id}>
               {acc.name} ({maskAccountNumber(acc.accountNumber)})
             </option>
           ))}
-        </select>
+        </Select>
         {errors.dest && (
-          <p className="text-rose-600 text-[11px] mt-1">{errors.dest}</p>
+          <p role="alert" className="text-rose-600 text-[11px] mt-1">
+            {errors.dest}
+          </p>
         )}
       </div>
 
@@ -102,7 +102,9 @@ export function TransferFormStep(props: TransferFormStepProps) {
           className="w-full text-sm font-semibold p-2.5 rounded-lg border border-slate-200 text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500"
         />
         {errors.amount && (
-          <p className="text-rose-600 text-[11px] mt-1">{errors.amount}</p>
+          <p role="alert" className="text-rose-600 text-[11px] mt-1">
+            {errors.amount}
+          </p>
         )}
       </div>
 

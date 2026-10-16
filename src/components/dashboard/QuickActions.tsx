@@ -11,7 +11,7 @@ export function QuickActions(props: QuickActionsProps) {
   return (
     <nav
       aria-label="Quick banking actions"
-      className="flex items-center gap-2.5"
+      className="flex items-center justify-center sm:justify-end gap-2.5 w-full sm:w-auto"
     >
       <button
         type="button"

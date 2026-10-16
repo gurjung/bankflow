@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Account } from "@/types";
 import { TransferFormStep } from "./TransferFormStep";
 import { TransferReviewStep } from "./TransferReviewStep";
@@ -31,6 +31,24 @@ export function TransferModal(props: TransferModalProps) {
   const [step, setStep] = useState<"form" | "review" | "success">("form");
   const [errors, setErrors] = useState<TransferErrors>({});
   const [completedRef, setCompletedRef] = useState("");
+
+  const handleClose = () => {
+    setStep("form");
+    setAmount("");
+    setNote("");
+    setErrors({});
+    setCompletedRef("");
+    onClose();
+  };
+
+  useEffect(() => {
+    if (!isOpen) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") handleClose();
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [isOpen]);
 
   if (!isOpen) return null;
 
@@ -76,15 +94,6 @@ export function TransferModal(props: TransferModalProps) {
 
     setCompletedRef(refNo);
     setStep("success");
-  };
-
-  const handleClose = () => {
-    setStep("form");
-    setAmount("");
-    setNote("");
-    setErrors({});
-    setCompletedRef("");
-    onClose();
   };
 
   return (

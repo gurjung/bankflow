@@ -147,7 +147,7 @@ export default function DashboardPage() {
         <Navbar user={user} onLogout={logout} />
         <main className="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8 space-y-6">
           {/* Dashboard Header & Quick Actions */}
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 text-center sm:text-left">
             <div>
               <h1 className="text-2xl font-bold text-slate-900">
                 Welcome back, {user?.name || "Customer"}
@@ -178,11 +178,6 @@ export default function DashboardPage() {
             accounts={accounts}
             selectedAccountId={selectedAccountId}
             onSelectAccount={setSelectedAccountId}
-          />
-
-          <QuickActions
-            onTransferClick={() => setIsTransferOpen(true)}
-            onHistoryClick={handleScrollToHistory}
           />
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">

@@ -1,5 +1,6 @@
 import React from "react";
 import { Search, X, RotateCcw } from "lucide-react";
+import { Select } from "../common/Select";
 
 interface TransactionFiltersBarProps {
   search: string;
@@ -56,31 +57,31 @@ export function TransactionFiltersBar(props: TransactionFiltersBarProps) {
 
         {/* Type Filter */}
         <div>
-          <select
+          <Select
             value={typeFilter}
             onChange={(e) => onTypeChange(e.target.value)}
             aria-label="Filter by transaction type"
-            className="w-full py-2 px-3 text-xs bg-white border border-slate-200 rounded-lg text-slate-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 cursor-pointer transition-colors"
+            className="py-2"
           >
             <option value="all">All Types (Credit & Debit)</option>
             <option value="credit">Money In (Credit)</option>
             <option value="debit">Money Out (Debit)</option>
-          </select>
+          </Select>
         </div>
 
         {/* Status Filter */}
         <div>
-          <select
+          <Select
             value={statusFilter}
             onChange={(e) => onStatusChange(e.target.value)}
             aria-label="Filter by transaction status"
-            className="w-full py-2 px-3 text-xs bg-white border border-slate-200 rounded-lg text-slate-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 cursor-pointer transition-colors"
+            className="py-2"
           >
             <option value="all">All Statuses</option>
             <option value="successful">Successful</option>
             <option value="pending">Pending</option>
             <option value="failed">Failed</option>
-          </select>
+          </Select>
         </div>
       </div>
 
