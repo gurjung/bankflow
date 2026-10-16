@@ -1,5 +1,5 @@
 import React from "react";
-import { AccountType, TransactionType } from "@/types";
+import { AccountType, TransactionStatus, TransactionType } from "@/types";
 import {
   Landmark,
   PiggyBank,
@@ -69,4 +69,17 @@ export function getTransactionTypeMeta(type: TransactionType) {
     amountColor: isCredit ? "text-emerald-600" : "text-slate-900",
     prefix: isCredit ? "+" : "-",
   };
+}
+
+export function getTransactionStatusBadge(status: TransactionStatus): string {
+  switch (status) {
+    case "successful":
+      return "bg-emerald-50 text-emerald-700 border-emerald-200";
+    case "pending":
+      return "bg-amber-50 text-amber-700 border-amber-200";
+    case "failed":
+      return "bg-rose-50 text-rose-700 border-rose-200";
+    default:
+      return "bg-slate-50 text-slate-700 border-slate-200";
+  }
 }

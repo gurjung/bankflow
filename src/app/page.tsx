@@ -10,6 +10,7 @@ import {
   SpendingChart,
 } from "@/components/dashboard/SpendingChart";
 import { StatsCard } from "@/components/dashboard/StatsCard";
+import { TransactionHistory } from "@/components/transactions/TransactionHistory";
 import { useAuth } from "@/context/AuthContext";
 import { formatCurrency } from "@/lib/formatter";
 import { INITIAL_ACCOUNTS, INITIAL_TRANSACTIONS } from "@/lib/mockData";
@@ -85,6 +86,12 @@ export default function DashboardPage() {
       .sort((a, b) => b.amount - a.amount);
   }, [displayedTransactions, monthlyExpenses]);
 
+  const handleScrollToHistory = () => {
+    document
+      .getElementById("transaction-history")
+      ?.scrollIntoView({ behavior: "smooth" });
+  };
+
   return (
     <AuthGuard>
       <div className="min-h-screen bg-slate-50 flex flex-col">
@@ -129,7 +136,7 @@ export default function DashboardPage() {
             onSelectAccount={setSelectedAccountId}
           />
 
-          <QuickActions />
+          <QuickActions onHistoryClick={handleScrollToHistory} />
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             <div className="lg:col-span-1">
@@ -147,6 +154,11 @@ export default function DashboardPage() {
               />
             </div>
           </div>
+
+          <TransactionHistory
+            transactions={displayedTransactions}
+            selectedAccountName={selectedAccount?.name}
+          />
         </main>
       </div>
     </AuthGuard>
