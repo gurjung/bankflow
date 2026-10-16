@@ -45,15 +45,18 @@ export function AuthProvider(props: AuthProviderProps) {
     }
 
     const cleanEmail = email.trim().toLowerCase();
-    const name = cleanEmail
-      .split("@")[0]
-      .split(".")
-      .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
-      .join(" ");
+
+    const name =
+      cleanEmail === INITIAL_USER.email.toLowerCase()
+        ? INITIAL_USER.name
+        : cleanEmail
+            .split("@")[0]
+            .replace(".", " ")
+            .replace(/\b\w/g, (l) => l.toUpperCase()) || INITIAL_USER.name;
 
     const loggedInUser: User = {
       id: INITIAL_USER.id,
-      name: name || INITIAL_USER.name,
+      name: name,
       email: cleanEmail,
     };
 

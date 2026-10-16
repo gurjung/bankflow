@@ -2,8 +2,8 @@ import { Account, Transaction, User } from "@/types";
 
 export const INITIAL_USER: User = {
   id: "usr_101",
-  name: "Alex Morgan",
-  email: "alex.morgan@example.com",
+  name: "Gurjung Singh",
+  email: "gurjung@bankflow.io",
 };
 
 export const INITIAL_ACCOUNTS: Account[] = [
